@@ -10,21 +10,10 @@ namespace Accounting.Controllers
 {
     public class AccountController : Controller
     {
-
         //首頁
         // GET: Account
         public ActionResult Index()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Index(AccountViewModel pagedata)
-        {
-            pagedata.Type = pagedata.Type == Type.收入 ? "收入" : "支出";
-
-            ViewData["PageData"] = pagedata;
-
             return View();
         }
 
@@ -34,54 +23,39 @@ namespace Accounting.Controllers
         /// <param name="AccountViewModel"></param>
         /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult ListAccountData(AccountViewModel AccountViewModel)
+        public ActionResult ListAccountData()
         {
-            var ShamData = TempData["ShamData"];
-
             List<AccountViewModel> listdata = new List<AccountViewModel>();
 
-            //keep testdata
-            if (ShamData != null)
+            //use GUID HashCode random seed
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
+
+            //create test 1000 count data
+            for (int i = 0; i < 1000; i++)
             {
-                listdata = (List<AccountViewModel>)ShamData;
+                string typevalue = rnd.Next(1, 3).ToString();
 
-                if (AccountViewModel.Type != "")
-                    listdata.Add(AccountViewModel);
-            }
-            else
-            {
-                //use GUID HashCode random seed
-                Random rnd = new Random(Guid.NewGuid().GetHashCode());
-
-                //create test 1000 count data
-                for (int i = 0; i < 1000; i++)
-                {
-                    string typevalue = rnd.Next(1, 3).ToString();
-
-                    AccountViewModel objAccountData = new AccountViewModel
-                    {
-                        Type = typevalue == Type.收入 ? "收入" : "支出",
+                 AccountViewModel objAccountData = new AccountViewModel
+                 {
+                        Type = typevalue == ((int)Type.收入).ToString() ? "收入" : "支出",
                         AccountDate = RandomAccountDate(rnd),
                         AmountMoney = rnd.Next(100, 500),
                         remark = RandomRemarks(rnd, typevalue)
-                    };
+                 };
 
-                    listdata.Add(objAccountData);
-                }
-
-            }
+                 listdata.Add(objAccountData);
+             }
 
             return View(listdata);
         }
 
-
         /// <summary>
         /// 記帳類別
         /// </summary>
-        private struct Type
+        private enum Type : int
         {
-            public const string 支出 = "1";
-            public const string 收入 = "2";
+            支出 = 1,
+            收入 = 2
         }
 
         /// <summary>
@@ -106,7 +80,7 @@ namespace Accounting.Controllers
         {
             var remarks = new List<string>();
 
-            if (typevalue == Type.支出)
+            if (typevalue == ((int)Type.支出).ToString())
             {
                 remarks = new List<string>{
                             "衣服",
@@ -119,7 +93,7 @@ namespace Accounting.Controllers
                             };
 
             }
-            else if (typevalue == Type.收入)
+            else if (typevalue == ((int)Type.收入).ToString())
             {
                 remarks = new List<string>{
                             "打工",

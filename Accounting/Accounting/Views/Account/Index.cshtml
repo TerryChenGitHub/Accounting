@@ -5,168 +5,78 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>Index</h2>
-      <html>
-      <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>我的記帳本</title>
-          <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-      </head>
-
-    <body>
-      <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-              <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-                  <a href="/" class="navbar-brand">我的記帳本</a>
-              </div>
-              <div class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav">
-                      <li><a href="#">首頁</a>
-                      <li><a href="#">關於</a>
-                      <li><a href="#">連絡方式</a>
-                  </ul>
-              </div>
-          </div>
-      </div>
-      <div class="container body-content">*@
-
-          <div class="well">
-            @using (Html.BeginForm("Index", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
-            {
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-
-                @*<form class="form-horizontal">*@
-                <div class="form-group">
-                    @*<label for="category" class="col-sm-2 control-label">類別</label>*@
-                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "col-sm-2 control-label" })
-
-                    <div class="col-sm-10">
-                        @*<select id="Type" class="form-control">
-                                <option value="" selected>請選擇</option>
-                                <option>支出</option>
-                                <option>收入</option>
-                            </select>*@
-                        @Html.DropDownListFor(m => m.Type
-                             , new List<SelectListItem> { new SelectListItem {Text= "支出", Value= "1"}, new SelectListItem {Text= "收入", Value= "2"}}
-                             , "請選擇"
-                             , new { @class = "form-control" })
-                    </div>
+     <div class="well">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="category" class="col-sm-2 control-label">類別</label>
+                <div class="col-sm-10">
+                    <select id="category" class="form-control">
+                        <option value="" selected>請選擇</option>
+                        <option>支出</option>
+                        <option>收入</option>
+                    </select>
                 </div>
-                        <div class="form-group">
-                            @*<label for="money" class="col-sm-2 control-label">金額</label>*@
-                            @Html.LabelFor(model => model.AmountMoney, htmlAttributes: new { @class = "col-sm-2 control-label"})
-                            <div class="col-sm-10">
-                                @*<input type="text" class="form-control" id="money" placeholder="金額">*@
-                                @Html.TextBoxFor(m => m.AmountMoney, new { @class = "form-control", placeholder = "金額" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @*<label for="date" class="col-sm-2 control-label">日期</label>*@
-                            @Html.LabelFor(model => model.AccountDate, htmlAttributes: new { @class = "col-sm-2 control-label" })
-                            <div class="col-sm-10">
-                                @*<input type="text" class="form-control" id="date" placeholder="日期">*@
-                                @Html.TextBoxFor(m => m.AccountDate, new { id = "AccountDate", @class = "form-control", placeholder = "日期" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @*<label for="description" class="col-sm-2 control-label">備註</label>*@
-                            @Html.LabelFor(model => model.remark, htmlAttributes: new { @class = "col-sm-2 control-label" })
-                            <div class="col-sm-10">
-                                @*<textarea class="form-control" id="description">
-                                    </textarea>*@
-                                @Html.TextAreaFor(m => m.remark, new { @class = "form-control", style = "height:100px;" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-8 col-sm-4">
-                                <button type="submit" class="btn btn-default">送出</button>
-                            </div>
-                        </div>
-                        @*</form>*@
-            }
-        </div>
-
-
-          <div class="row">
-            <div class="col-md-12">
-
-                @if (ViewData["PageData"] != null)
-                {
-                    @Html.Action("ListAccountData", new { AccountViewModel = ViewData["PageData"] })
-                }
-                else
-                {
-                    @Html.Action("ListAccountData")
-                }
-
-                @*<table class="table table-bordered table-hover">
-                        <tr>
-                            <th>#</th>
-                            <th>類別</th>
-                            <th>日期</th>
-                            <th>金額</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>支出</td>
-                            <td>2016-01-01</td>
-                            <td>300</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>支出</td>
-                            <td>2016-01-02</td>
-                            <td>1,600</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>支出</td>
-                            <td>2016-01-03</td>
-                            <td>8,00</td>
-                        </tr>
-                    </table>*@
             </div>
-        </div>
-
-        @*<hr />
-                    <footer>
-                        <p>&copy; 2017 - <a href="#">SkillTree</a></p>
-                    </footer>
+            <div class="form-group">
+                <label for="money" class="col-sm-2 control-label">金額</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="money" placeholder="金額">
                 </div>
-                <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.1.min.js"></script>
-                <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
-            @*</body>
-            </html>*@
+            </div>
+            <div class="form-group">
+                <label for="date" class="col-sm-2 control-label">日期</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="date" placeholder="日期">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">備註</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="description">
+                </textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <button type="submit" class="btn btn-default">送出</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-        @section scripts{
-            <script type="text/javascript">
-                $(function () {
-                    $("#AccountDate").datepicker({
-                        altFormat: "yy-mm-dd",
-                        dateFormat: "yy-mm-dd",
-                        changeMonth: true,
-                        changeYear: true,
-                        yearRange: '1900:' + new Date().getFullYear(),
-                        //以下為清空月曆控制項內容後，所需的屬性與事件。
-                        showButtonPanel: true,
-                        closeText: '清除', // Text to show for "close" button
-                        onClose: function () {
-                            var event = arguments.callee.caller.caller.arguments[0];
-                            // If "Clear" gets clicked, then really clear it
-                            if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
-                                $(this).val('');
-                                //注意:在清空內容後，若要執行change事件，需要自行指定。
-                                $(this).change();
-                            }
+     <div class="row">
+        <div class="col-md-12">
+            @Html.Action("ListAccountData")
+        </div>
+    </div>
+
+    @section scripts{
+        @*for DatePicker use*@
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#date").datepicker({
+                    altFormat: "yy-mm-dd",
+                    dateFormat: "yy-mm-dd",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1900:' + new Date().getFullYear(),
+                    //以下為清空月曆控制項內容後，所需的屬性與事件。
+                    showButtonPanel: true,
+                    closeText: '清除', // Text to show for "close" button
+                    onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                            //注意:在清空內容後，若要執行change事件，需要自行指定。
+                            $(this).change();
                         }
-                    }).attr('readOnly', 'true');;
-                });
-            </script>
-        }
+                    }
+                }).attr('readOnly', 'true');;
+            });
+        </script>
+    }

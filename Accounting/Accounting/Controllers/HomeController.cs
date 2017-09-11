@@ -10,8 +10,7 @@ namespace Accounting.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Account");
-            //return View();
+            return View();
         }
 
         public ActionResult About()
