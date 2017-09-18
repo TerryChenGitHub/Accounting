@@ -5,6 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section scripts{
+    @*for DatePicker use*@
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#date").datepicker({
+                altFormat: "yy-mm-dd",
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1900:' + new Date().getFullYear(),
+                //以下為清空月曆控制項內容後，所需的屬性與事件。
+                showButtonPanel: true,
+                closeText: '清除', // Text to show for "close" button
+                onClose: function () {
+                    var event = arguments.callee.caller.caller.arguments[0];
+                    // If "Clear" gets clicked, then really clear it
+                    if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                        $(this).val('');
+                        //注意:在清空內容後，若要執行change事件，需要自行指定。
+                        $(this).change();
+                    }
+                }
+            }).attr('readOnly', 'true');;
+        });
+    </script>
+}
      <div class="well">
         <form class="form-horizontal">
             <div class="form-group">
@@ -50,33 +80,4 @@
         </div>
     </div>
 
-    @section scripts{
-        @*for DatePicker use*@
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-        <script type="text/javascript">
-            $(function () {
-                $("#date").datepicker({
-                    altFormat: "yy-mm-dd",
-                    dateFormat: "yy-mm-dd",
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1900:' + new Date().getFullYear(),
-                    //以下為清空月曆控制項內容後，所需的屬性與事件。
-                    showButtonPanel: true,
-                    closeText: '清除', // Text to show for "close" button
-                    onClose: function () {
-                        var event = arguments.callee.caller.caller.arguments[0];
-                        // If "Clear" gets clicked, then really clear it
-                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
-                            $(this).val('');
-                            //注意:在清空內容後，若要執行change事件，需要自行指定。
-                            $(this).change();
-                        }
-                    }
-                }).attr('readOnly', 'true');;
-            });
-        </script>
-    }

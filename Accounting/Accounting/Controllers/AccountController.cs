@@ -1,4 +1,6 @@
-﻿using Accounting.Models.ViewModels;
+﻿using Accounting.Models;
+using Accounting.Models.Service;
+using Accounting.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,9 @@ namespace Accounting.Controllers
 {
     public class AccountController : Controller
     {
+
+        private AccountBookService AccountBookService = new AccountBookService();
+
         //首頁
         // GET: Account
         public ActionResult Index()
@@ -25,29 +30,35 @@ namespace Accounting.Controllers
         [ChildActionOnly]
         public ActionResult ListAccountData()
         {
-            List<AccountViewModel> listdata = new List<AccountViewModel>();
+            #region 第一天測試資料綁定
+            //List<AccountViewModel> listdata = new List<AccountViewModel>();
 
-            //use GUID HashCode random seed
-            Random rnd = new Random(Guid.NewGuid().GetHashCode());
+            ////use GUID HashCode random seed
+            //Random rnd = new Random(Guid.NewGuid().GetHashCode());
 
-            //create test 1000 count data
-            for (int i = 0; i < 1000; i++)
-            {
-                string typevalue = rnd.Next(1, 3).ToString();
+            ////create test 1000 count data
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    int typevalue = rnd.Next(1, 3);
 
-                 AccountViewModel objAccountData = new AccountViewModel
-                 {
-                        Type = typevalue == ((int)Type.收入).ToString() ? "收入" : "支出",
-                        AccountDate = RandomAccountDate(rnd),
-                        AmountMoney = rnd.Next(100, 500),
-                        remark = RandomRemarks(rnd, typevalue)
-                 };
+            //    AccountViewModel objAccountData = new AccountViewModel
+            //    {
+            //        Type = typevalue == ((int)Type.收入) ? "收入" : "支出",
+            //        AccountDate = RandomAccountDate(rnd),
+            //        AmountMoney = rnd.Next(100, 500),
+            //        remark = RandomRemarks(rnd, typevalue)
+            //    };
 
-                 listdata.Add(objAccountData);
-             }
+            //    listdata.Add(objAccountData);
+            //}
+            #endregion
+
+            var listdata = AccountBookService.GetAllAccountBook();
 
             return View(listdata);
         }
+
+        #region 第一天作業測試資料
 
         /// <summary>
         /// 記帳類別
@@ -76,11 +87,11 @@ namespace Accounting.Controllers
         /// <param name="random"></param>
         /// <param name="typevalue"></param>
         /// <returns></returns>
-        private string RandomRemarks(Random random, string typevalue)
+        private string RandomRemarks(Random random, int typevalue)
         {
             var remarks = new List<string>();
 
-            if (typevalue == ((int)Type.支出).ToString())
+            if (typevalue == ((int)Type.支出))
             {
                 remarks = new List<string>{
                             "衣服",
@@ -93,7 +104,7 @@ namespace Accounting.Controllers
                             };
 
             }
-            else if (typevalue == ((int)Type.收入).ToString())
+            else if (typevalue == ((int)Type.收入))
             {
                 remarks = new List<string>{
                             "打工",
@@ -108,5 +119,6 @@ namespace Accounting.Controllers
             return remark;
         }
 
+        #endregion
     }
 }
