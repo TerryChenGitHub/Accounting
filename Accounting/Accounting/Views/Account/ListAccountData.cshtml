@@ -1,58 +1,55 @@
-﻿@model IEnumerable<Accounting.Models.ViewModels.AccountViewModel>
+﻿@using Accounting.Utilities
+@using Accounting.Helper
+@model IEnumerable<Accounting.Models.ViewModels.AccountViewModel>
 
 @{
     Layout = null;
 }
 
-  <table class="table table-bordered table-hover">
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AmountMoney)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.remark)
-            </th>
-            <th style="display:none"></th>
-        </tr>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountMoney)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remark)
+        </th>
+    </tr>
 
     @{ var num = 1;}
 
     @foreach (var item in Model)
-            {
-        <tr>
-            <td>
-                @num
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AmountMoney)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.remark)
-            </td>
-            <td style="display:none">
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+      {
+            <tr>
+                <td>
+                    @num
+                </td>
 
-        num++;
-    }
+                 @Html.FormateAccountTypeColor((int)(item.Type))
 
-  </table>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountDate)
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountMoney)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.remark)
+                </td>
+            </tr>
+
+           num++;
+      }
+
+</table>

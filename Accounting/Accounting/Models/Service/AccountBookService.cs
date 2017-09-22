@@ -28,10 +28,7 @@ namespace Accounting.Models.Service
             {
                 AccountViewModel objAccountData = new AccountViewModel
                 {
-                    Type = item.Categoryyy == ((int)AccountType.收入)
-                                      ? Enum.GetName(typeof(AccountType), AccountType.收入)
-                                      : Enum.GetName(typeof(AccountType), AccountType.支出),
-
+                    Type = item.Categoryyy == (int)(AccountType.支出) ? AccountType.支出 : AccountType.收入,
                     AccountDate = item.Dateee,
                     AmountMoney = item.Amounttt,
                     remark = item.Remarkkk
@@ -43,5 +40,25 @@ namespace Accounting.Models.Service
             return listdata;
         }
 
+        /// <summary>
+        /// 新增記帳本資料
+        /// </summary>
+        /// <param name="objAccount"></param>
+        public string AddData(AccountBook objAccount)
+        {
+            string strMsg = "";
+
+            try
+            {
+                db.AccountBook.Add(objAccount);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                strMsg = ex.Message;
+            }
+
+            return strMsg;
+        }
     }
 }

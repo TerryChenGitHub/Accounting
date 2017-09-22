@@ -4,6 +4,7 @@ using Accounting.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,6 +22,32 @@ namespace Accounting.Controllers
         {
             return View();
         }
+
+        //新增
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(AccountViewModel pageData)
+        {
+            //Thread.Sleep(3000);
+
+            if (ModelState.IsValid)
+            {
+                AccountBook objAccountBook = new AccountBook
+                {
+                   Id = Guid.NewGuid(),
+                   Categoryyy = (int)(pageData.Type),
+                   Amounttt = pageData.AmountMoney,
+                   Dateee = pageData.AccountDate,
+                   Remarkkk = pageData.remark
+                };
+
+               var AddService = AccountBookService.AddData(objAccountBook);
+            }
+
+            return View("Index");
+           // return RedirectToAction("ListAccountData");
+        }
+
 
         /// <summary>
         /// 列表資料
@@ -53,7 +80,7 @@ namespace Accounting.Controllers
             //}
             #endregion
 
-            var listdata = AccountBookService.GetAllAccountBook();
+            var listdata = AccountBookService.GetAllAccountBook().Take(5);
 
             return View(listdata);
         }
